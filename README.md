@@ -18,7 +18,7 @@ This branch contains the implementation of a basic form to handle the submition 
 In order to run this locally you need to have `python 3.12` installed on your machine.
 
 Additionaly you need to install the libraries described in the requirements.txt using pip
-`pip install fastapi uvicorn jinja2 pydantic`
+`pip install -r requirements.txt`
 
 Finally you can run the server using `uvicorn app.main:app --reload` or by using one of the provided scripts depending on your operating system.
 
