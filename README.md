@@ -11,9 +11,9 @@ OpenAI to provide users with basic tax advice based on their input.
 
 Each Branch is split into the different steps of the assessment
 
-### 01-Web Application Setup
+### 02-Implementing REST APIs
 
-This branch contains the implementation of a basic form to handle the submition of data from the user.
+This branch contains the implementation of a basic form to handle the submition of data from the user. Additionally the branch containts the implementation of backend validation and storing the data in a local database in the form of sqlite file.
 
 In order to run this locally you need to have `python 3.12` installed on your machine.
 
