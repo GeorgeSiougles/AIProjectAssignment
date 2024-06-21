@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Information</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Welcome to the Tax Information App</h1>
+        <p>Please enter your income and expenses to calculate your tax information.</p>
+        <form method="post" action="/submit/" class="mb-4">
+            <div class="form-group">
+                <label for="income">Income:</label>
+                <input type="number" id="income" name="income" step="0.01" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="expenses">Expenses:</label>
+                <input type="number" id="expenses" name="expenses" step="0.01" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="tax_rate">Tax Rate (%):</label>
+                <input type="number" id="tax_rate" name="tax_rate" step="0.01" class="form-control" value="24" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+        {% if entries %}
+            <h2>Submitted Information</h2>
+            <ul class="list-group">
+                {% for entry in entries %}
+                    <li class="list-group-item">
+                        <strong>ID:</strong> {{ entry.id }} <br>
+                        <strong>Income:</strong> {{ "%.2f" | format(entry.income) }} <br>
+                        <strong>Expenses:</strong> {{ "%.2f" | format(entry.expenses) }} <br>
+                        <strong>Tax Amount:</strong> {{ "%.2f" | format(entry.tax_amount) }}
+                    </li>
+                {% endfor %}
+            </ul>
+            <h2 class="mt-4">Totals</h2>
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <strong>Total Income:</strong> {{ "%.2f" | format(total_income) }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Total Expenses:</strong> {{ "%.2f" | format(total_expenses) }}
+                </li>
+                <li class="list-group-item">
+                    <strong>Total Tax Paid:</strong> {{ "%.2f" | format(total_tax) }}
+                </li>
+            </ul>
+        {% endif %}
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
