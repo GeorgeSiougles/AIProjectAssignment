@@ -1,8 +1,15 @@
-from sqlalchemy import create_engine, Column, Integer, Float, String
+import os
+from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
 
-DATABASE_URL = "sqlite:///./app/db.sqlite"
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(BASEDIR, '.env.local'))
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+# DATABASE_URL = "sqlite:///./app/db.sqlite"
+
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
