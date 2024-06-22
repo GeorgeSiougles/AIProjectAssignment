@@ -11,9 +11,9 @@ OpenAI to provide users with basic tax advice based on their input.
 
 Each Branch is split into the different steps of the assessment
 
-### 02-Implementing REST APIs
+### 03-AI Integration using OpenAI
 
-This branch contains the implementation of a basic form to handle the submition of data from the user. Additionally the branch containts the implementation of backend validation and storing the data in a local database in the form of sqlite file.
+This branch contains the integration of a generative AI model
 
 ## Endpoints
 
