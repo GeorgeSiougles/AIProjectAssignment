@@ -80,7 +80,10 @@ The database schema includes the following fields:
 
 ### Running the Application
 
-In order to run this locally you need to have `python 3.12` installed on your machine.
+- In order to run this locally you need to have `python 3.12` installed on your machine.
+
+- Ensure the database is properly configured and accessible (`DATABASE_URL` in `.env.local`).
+- Modify tax rates and any other configurations as per application requirements.
 
 Additionaly you need to install the libraries described in the requirements.txt using 
 ```
