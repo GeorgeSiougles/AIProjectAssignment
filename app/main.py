@@ -1,10 +1,7 @@
-from fastapi import FastAPI, Request, Form, Depends
-
-from starlette.responses import RedirectResponse
-from starlette.templating import Jinja2Templates
-
+from fastapi import FastAPI, Request, Form, Depends, HTTPException
+from fastapi.responses import HTMLResponse, RedirectResponse
+from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-
 from pydantic import BaseModel
 from typing import List
 
@@ -30,6 +27,7 @@ class TaxInfoCreate(BaseModel):
     income: float
     expenses: float
     tax_rate: float = 24
+    description: str | None = None
 
 
 class TaxInfoResponse(BaseModel):
@@ -38,21 +36,14 @@ class TaxInfoResponse(BaseModel):
     expenses: float
     tax_amount: float
     tax_rate: float
+    description: str | None = None
 
     class Config:
         orm_mode = True
         from_attributes = True
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def home(request: Request, db: Session = Depends(get_db)):
     taxinfo_entries = db.query(TaxInfo).all()
     entries = [TaxInfoResponse.from_orm(entry) for entry in taxinfo_entries]
@@ -69,7 +60,13 @@ async def home(request: Request, db: Session = Depends(get_db)):
 
 
 @app.post("/submit/", response_model=TaxInfoResponse)
-async def submit_tax_info(income: float = Form(...), expenses: float = Form(...), tax_rate: float = Form(24), db: Session = Depends(get_db)):
+async def submit_tax_info(
+    income: float = Form(...),
+    expenses: float = Form(...),
+    tax_rate: float = Form(24),
+    description: str = Form(None),  # Include description field
+    db: Session = Depends(get_db)
+):
     validate_income(income)
     validate_expenses(expenses)
 
@@ -78,9 +75,27 @@ async def submit_tax_info(income: float = Form(...), expenses: float = Form(...)
         income=round(income, 2),
         expenses=round(expenses, 2),
         tax_amount=tax_amount,
-        tax_rate=tax_rate
+        tax_rate=tax_rate,
+        description=description  # Save description
     )
     db.add(db_tax_info)
     db.commit()
     db.refresh(db_tax_info)
+    return RedirectResponse(url="/", status_code=303)
+
+
+@app.post("/delete/{entry_id}", response_class=HTMLResponse)
+async def delete_entry(entry_id: int, db: Session = Depends(get_db)):
+    entry = db.query(TaxInfo).filter(
+        TaxInfo.id == entry_id).first()
+    if entry:
+        db.delete(entry)
+        db.commit()
+    return RedirectResponse(url="/", status_code=303)
+
+
+@app.post("/clear_all/", response_class=HTMLResponse)
+async def clear_all_entries(db: Session = Depends(get_db)):
+    db.query(TaxInfo).delete()
+    db.commit()
     return RedirectResponse(url="/", status_code=303)
