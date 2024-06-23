@@ -69,6 +69,10 @@
         <p>Total Income: {{ total_income }}</p>
         <p>Total Expenses: {{ total_expenses }}</p>
         <p>Total Tax Paid: {{ total_tax }}</p>
+
+        <form method="get" action="/get_all_advice/">
+            <button type="submit" class="btn btn-primary">Get Advice for All Entries</button>
+        </form>
     </div>
 </body>
 </html>

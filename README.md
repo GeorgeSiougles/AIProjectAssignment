@@ -11,9 +11,9 @@ OpenAI to provide users with basic tax advice based on their input.
 
 Each Branch is split into the different steps of the assessment
 
-### 02-Implementing REST APIs
+### 03-AI Integration using OpenAI
 
-This branch contains the implementation of a basic form to handle the submition of data from the user. Additionally the branch containts the implementation of backend validation and storing the data in a local database in the form of sqlite file.
+This branch contains the integration of a generative AI model
 
 ## Endpoints
 
@@ -68,6 +68,15 @@ This branch contains the implementation of a basic form to handle the submition 
     ```bash
     curl -X POST "http://127.0.0.1:8000/clear_all/"
     ```
+
+### Get All Advice
+
+**GET /get_all_advice**
+
+- **Description:** Fetches tax advice based on all the current entries in the database.
+- **Response:**
+  - **200 OK**
+    - `advice` (List[str]): A list of advice generated based on the tax entries.
 
 ## Database Schema
 
