@@ -11,9 +11,9 @@ OpenAI to provide users with basic tax advice based on their input.
 
 Each Branch is split into the different steps of the assessment
 
-### 03-AI Integration using OpenAI
+### 04-Containerization with Docker
 
-This branch contains the integration of a generative AI model
+This branch is responsible for the containerization of the application
 
 ## Endpoints
 
