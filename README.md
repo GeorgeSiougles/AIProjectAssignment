@@ -67,6 +67,15 @@ This branch contains the integration of a generative AI model
     curl -X POST "http://127.0.0.1:8000/clear_all/"
     ```
 
+### Get All Advice
+
+**GET /get_all_advice**
+
+- **Description:** Fetches tax advice based on all the current entries in the database.
+- **Response:**
+  - **200 OK**
+    - `advice` (List[str]): A list of advice generated based on the tax entries.
+
 ## Database Schema
 
 The database schema includes the following fields:
