@@ -1,11 +1,11 @@
-from fastapi import FastAPI, Request, Form, Depends, HTTPException
+from fastapi import FastAPI, Request, Form, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
+# from pydantic import BaseModel
 from typing import List
 
-from .models import TaxInfo
+from .models import TaxInfo, TaxInfoResponse
 from .database import SessionLocal, engine, Base
 from .validation import validate_expenses, validate_income
 
@@ -23,17 +23,17 @@ def get_db():
         db.close()
 
 
-class TaxInfoResponse(BaseModel):
-    id: int
-    income: float
-    expenses: float
-    tax_amount: float
-    tax_rate: float
-    description: str | None = None
+# class TaxInfoResponse(BaseModel):
+#     id: int
+#     income: float
+#     expenses: float
+#     tax_amount: float
+#     tax_rate: float
+#     description: str | None = None
 
-    class Config:
-        orm_mode = True
-        from_attributes = True
+#     class Config:
+#         orm_mode = True
+#         from_attributes = True
 
 
 @app.get("/", response_class=HTMLResponse)
