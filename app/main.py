@@ -1,13 +1,21 @@
-from fastapi import FastAPI, Request, Form, Depends
+import os
+from dotenv import load_dotenv
+import openai
+from fastapi import FastAPI, Request, Form, Depends, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
-# from pydantic import BaseModel
-from typing import List
+
 
 from .models import TaxInfo, TaxInfoResponse
 from .database import SessionLocal, engine, Base
 from .validation import validate_expenses, validate_income
+
+
+BASEDIR = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(os.path.join(BASEDIR, '.env.local'))
+
+openai.api_key = os.getenv("OPENAI-API-KEY")
 
 Base.metadata.create_all(bind=engine)
 
@@ -21,19 +29,6 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
-# class TaxInfoResponse(BaseModel):
-#     id: int
-#     income: float
-#     expenses: float
-#     tax_amount: float
-#     tax_rate: float
-#     description: str | None = None
-
-#     class Config:
-#         orm_mode = True
-#         from_attributes = True
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -57,7 +52,7 @@ async def submit_tax_info(
     income: float = Form(...),
     expenses: float = Form(...),
     tax_rate: float = Form(24),
-    description: str = Form(None),  # Include description field
+    description: str = Form(None),
     db: Session = Depends(get_db)
 ):
     validate_income(income)
@@ -69,7 +64,7 @@ async def submit_tax_info(
         expenses=round(expenses, 2),
         tax_amount=tax_amount,
         tax_rate=tax_rate,
-        description=description  # Save description
+        description=description
     )
     db.add(db_tax_info)
     db.commit()
@@ -92,3 +87,31 @@ async def clear_all_entries(db: Session = Depends(get_db)):
     db.query(TaxInfo).delete()
     db.commit()
     return RedirectResponse(url="/", status_code=303)
+
+
+@app.get("/get_all_advice/", response_class=HTMLResponse)
+async def get_all_advice(request: Request, db: Session = Depends(get_db)):
+    taxinfo_entries = db.query(TaxInfo).all()
+    entries = [TaxInfoResponse.from_orm(entry) for entry in taxinfo_entries]
+
+    if not entries:
+        return templates.TemplateResponse("advice.html", {"request": request, "advice": "No tax information entries found."})
+
+    prompt_entries = "\n".join([f"Entry {entry.id}: Income = {entry.income}, Expenses = {
+                               entry.expenses}, Tax Rate = {entry.tax_rate}%" for entry in entries])
+    prompt = f"Based on the following tax information entries, provide tax advice:\n\n{
+        prompt_entries}"
+
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a tax advisor."},
+                {"role": "user", "content": prompt}
+            ]
+        )
+        advice = response.choices[0].message['content'].strip()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+    return templates.TemplateResponse("advice.html", {"request": request, "advice": advice})
