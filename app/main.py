@@ -23,13 +23,6 @@ def get_db():
         db.close()
 
 
-class TaxInfoCreate(BaseModel):
-    income: float
-    expenses: float
-    tax_rate: float = 24
-    description: str | None = None
-
-
 class TaxInfoResponse(BaseModel):
     id: int
     income: float
