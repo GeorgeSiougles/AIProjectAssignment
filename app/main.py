@@ -97,10 +97,12 @@ async def get_all_advice(request: Request, db: Session = Depends(get_db)):
     if not entries:
         return templates.TemplateResponse("advice.html", {"request": request, "advice_list": ["No tax information entries found."]})
 
-    prompt_entries = "\n".join([f"Entry {entry.id}: Income = {entry.income}, Expenses = {
-                               entry.expenses}, Tax Rate = {entry.tax_rate}%" for entry in entries])
-    prompt = f"Based on the following tax information entries, provide tax advice:\n\n{
-        prompt_entries}"
+    prompt_entries = "\n".join([
+    f"Entry {entry.id}: Income = {entry.income}, Expenses = {entry.expenses}, Tax Rate = {entry.tax_rate}%"
+    for entry in entries
+    ])
+
+    prompt = f"Based on the following tax information entries, provide tax advice: {prompt_entries}"
 
     try:
         response = openai.ChatCompletion.create(
