@@ -9,8 +9,12 @@
 <body>
     <div class="container">
         <h1 class="mt-5">Tax Advice</h1>
-        <p>{{ advice }}</p>
-        <a href="/" class="btn btn-primary">Back to Home</a>
+        <ul class="list-group-flush mt-3">
+            {% for advice in advice_list %}
+                <li class="list-group-item">{{ advice }}</li>
+            {% endfor %}
+        </ul>
+        <a href="/" class="btn btn-primary mt-3">Back to Home</a>
     </div>
 </body>
 </html>
