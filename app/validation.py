@@ -2,7 +2,7 @@ from fastapi import HTTPException
 
 
 def validate_positive_number(value: float, field_name: str):
-    if value <= 0:
+    if value < 0:
         raise HTTPException(status_code=400, detail=f"{
                             field_name} must be a positive number")
 
