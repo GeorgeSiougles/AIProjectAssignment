@@ -95,7 +95,7 @@ async def get_all_advice(request: Request, db: Session = Depends(get_db)):
     entries = [TaxInfoResponse.from_orm(entry) for entry in taxinfo_entries]
 
     if not entries:
-        return templates.TemplateResponse("advice.html", {"request": request, "advice": "No tax information entries found."})
+        return templates.TemplateResponse("advice.html", {"request": request, "advice_list": ["No tax information entries found."]})
 
     prompt_entries = "\n".join([f"Entry {entry.id}: Income = {entry.income}, Expenses = {
                                entry.expenses}, Tax Rate = {entry.tax_rate}%" for entry in entries])
@@ -111,7 +111,9 @@ async def get_all_advice(request: Request, db: Session = Depends(get_db)):
             ]
         )
         advice = response.choices[0].message['content'].strip()
+        # Split the advice into a list of sentences or bullet points
+        advice_list = advice.split('\n')
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-    return templates.TemplateResponse("advice.html", {"request": request, "advice": advice})
+    return templates.TemplateResponse("advice.html", {"request": request, "advice_list": advice_list})
