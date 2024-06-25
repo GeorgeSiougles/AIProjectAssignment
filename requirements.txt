@@ -4,5 +4,5 @@ jinja2
 pydantic
 sqlalchemy
 python-dotenv
-# openai
 openai==0.28
+pytest
