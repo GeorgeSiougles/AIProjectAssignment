@@ -11,10 +11,9 @@ OpenAI to provide users with basic tax advice based on their input.
 
 Each Branch is split into the different steps of the assessment
 
-### 05-DevOps and Continuous Integration
+### 06-Documentation
 
-This branch provides a workflow for github actions to automate deployment.
-It runs some tests and only deploys of they pass.
+This branch aims to provide documentation about the project and provide a presentation of the implementation of the various tasks
 
 
 ## Github workflow 
