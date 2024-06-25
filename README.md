@@ -89,23 +89,19 @@ The database schema includes the following fields:
 
 ### Running the Application
 
-- In order to run this locally you need to have `python 3.12` installed on your machine.
+- In order to run this locally you need to have `docker` installed on your machine and running.
 
-- Ensure the database is properly configured and accessible (`DATABASE_URL` in `.env.local`).
-- Modify tax rates and any other configurations as per application requirements.
-
-Additionaly you need to install the libraries described in the requirements.txt using 
+- Set up enviromental variables at the file `.env.local` and place the file next to the dockerfile.
 ```
-pip install -r requirements.txt
+DATABASE_URL=sqlite:///./app/db.sqlite
 ```
-
-Finally you can run the server using 
 ```
-uvicorn app.main:app --reload
+OPENAI-API-KEY=YOUR API KEY
 ```
+- Create the image by running `docker-compose build`
+- Run the container `docker-compose up`
+- Navigate to the browser at the address `http://127.0.0.1:8000`.
 
-Alternatively you can run the application by excecuting the included `run.bat` or `run.sh` scripts
+- To stop the container run the commant `docker-compose down`
 
-If using a unix operating system make sure to make the script excecutable by running `chmod +x run.sh` And start the application using `./run.sh`
-
-Navigate to the browser at the address `http://127.0.0.1:8000`.
+Alternatively you can run the provided scripts to start `go.bat or go.sh` and stop the service `stop.bat or stop.sh`.
