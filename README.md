@@ -11,9 +11,10 @@ OpenAI to provide users with basic tax advice based on their input.
 
 Each Branch is split into the different steps of the assessment
 
-### 04-Containerization with Docker
+### 05-DevOps and Continuous Integration
 
-This branch is responsible for the containerization of the application
+This branch provides a workflow for github actions to automate deployment.
+It runs some tests and only deploys of they pass.
 
 ## Endpoints
 
