@@ -11,9 +11,20 @@ OpenAI to provide users with basic tax advice based on their input.
 
 Each Branch is split into the different steps of the assessment
 
-### 04-Containerization with Docker
+### 05-DevOps and Continuous Integration
 
-This branch is responsible for the containerization of the application
+This branch provides a workflow for github actions to automate deployment.
+It runs some tests and only deploys of they pass.
+
+
+## Github workflow 
+
+- Added workflow to run some tests at the `full_tests.yml` file. They run on every push request and any pull requests and branching of the main branch.
+
+## Tests
+
+- Added tests which test the validation functions and mock the connection to the datapase to test the endpoints. You can manually run the tests using the included scripts `run_tests` or by using the command `python -B -m pytest`
+
 
 ## Endpoints
 

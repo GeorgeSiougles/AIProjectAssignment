@@ -7,8 +7,7 @@ from dotenv import load_dotenv
 BASEDIR = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(BASEDIR, '.env.local'))
 
-DATABASE_URL = os.getenv("DATABASE_URL")
-
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./test_db.sqlite")
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
