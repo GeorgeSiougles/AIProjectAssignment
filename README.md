@@ -17,7 +17,9 @@ This branch is responsible for the containerization of the application
 
 ## Endpoints
 
+
 ### Home Page
+
 
 **GET /**
 
@@ -103,5 +105,6 @@ OPENAI-API-KEY=YOUR API KEY
 - Navigate to the browser at the address `http://127.0.0.1:8000`.
 
 - To stop the container run the commant `docker-compose down`
+
 
 Alternatively you can run the provided scripts to start `go.bat or go.sh` and stop the service `stop.bat or stop.sh`.
