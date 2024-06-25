@@ -1,6 +1,6 @@
 import pytest
 from fastapi import HTTPException
-from .validation import validate_income, validate_expenses
+from ..validation import validate_income, validate_expenses
 
 def test_validate_income_positive():
     validate_income(100.0) 
