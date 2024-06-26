@@ -1,15 +1,15 @@
-version: '3.8'
+version: '3.8'  # Specify the version of the Docker Compose file format
 
 services:
   app:
-    build: .
+    build: .  # Build the Docker image using the Dockerfile in the current directory
     ports:
-      - "8000:8000"
+      - "8000:8000"  # Map port 8000 of the host to port 8000 of the container
     volumes:
-      - .:/app
-      - app-data:/app/app
+      - .:/app  # Mount the current directory to /app inside the container
+      - app-data:/app/app  # Create a named volume 'app-data' and mount it to /app/app inside the container
     env_file:
-      - .env.local
+      - .env.local  # Load environment variables from the .env.local file
 
 volumes:
-  app-data:
+  app-data:  # Declare the named volume 'app-data' used by the app service
