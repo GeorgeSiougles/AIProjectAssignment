@@ -1,3 +1,20 @@
+"""
+Database configuration module.
+
+This module is responsible for setting up the database connection and ORM base class
+using SQLAlchemy. It also loads environment variables required for the database 
+configuration from a .env.local file.
+
+Attributes:
+    BASEDIR (str): The base directory of the current file.
+    DATABASE_URL (str): The database URL, retrieved from environment variables or 
+                        defaulting to a SQLite database.
+    engine (Engine): SQLAlchemy engine created with the specified DATABASE_URL.
+    SessionLocal (sessionmaker): A sessionmaker factory bound to the engine, with 
+                                 autocommit and autoflush settings.
+    Base (DeclarativeMeta): A base class for all ORM models.
+"""
+
 import os  # Module for interacting with the operating system
 from sqlalchemy import create_engine  # Function to create a SQLAlchemy engine
 from sqlalchemy.ext.declarative import declarative_base  # Function to create a base class for ORM models
